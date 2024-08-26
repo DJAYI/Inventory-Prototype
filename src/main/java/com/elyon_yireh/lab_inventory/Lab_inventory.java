@@ -47,7 +47,7 @@ public class Lab_inventory {
 
         switch (Action) {
 
-            case "1":
+            case "1" -> {
                 System.out.println("Ingrese el Codigo del Equipo: ");
                 String Codigo = in.nextLine();
                 System.out.println("Ingrese el Nombre del Equipo: ");
@@ -69,10 +69,9 @@ public class Lab_inventory {
                 Laboratorio LabId = controller.FindLaboratorio(NumeroLab);
 
                 IngresarEquipo(Codigo, Nombre, Estado, new Date(), Responsable, Ubicacion, Observaciones, LabId);
+            }
 
-                break;
-
-            case "2":
+            case "2" -> {
                 System.out.println("¿Que equipo desea editar? (Ingrese el ID))");
                 int IdEquipoEditar = in.nextInt();
                 Equipo EquipoEditar = controller.FindEquipo(IdEquipoEditar);
@@ -80,9 +79,8 @@ public class Lab_inventory {
                 if (EquipoEditar != null) {
                     EditarEquipo(EquipoEditar.getId());
                 }
-
-                break;
-            case "3":
+            }
+            case "3" -> {
                 System.out.println("¿Que equipo desea eliminar? (Ingrese el ID)");
                 int EliminarId = in.nextInt();
                 Equipo EquipoEliminar = controller.FindEquipo(EliminarId);
@@ -90,27 +88,25 @@ public class Lab_inventory {
                 if (EquipoEliminar != null) {
                     EliminarEquipo(EquipoEliminar.getId());
                 }
-                break;
-            case "4":
+            }
+            case "4" -> {
                 System.out.println("Ingrese el código del laboratorio: ");
                 String codigoLab = in.nextLine();
                 System.out.println("Ingrese el nombre del laboratorio: ");
                 String nombreLab = in.nextLine();
 
                 IngresarLaboratorio(codigoLab, nombreLab);
-                break;
+            }
 
-            case "5":
-                VerListaLaboratorios();
-                break;
+            case "5" -> VerListaLaboratorios();
 
-            case "6":
+            case "6" -> {
                 System.out.println("¿Los equipos de que laboratorios desea realizar? (Ingrese el ID)");
                 int IdLaboratorio = in.nextInt();
                 VerListaEquiposPorLaboratorio(IdLaboratorio);
-                break;
+            }
 
-            case "7":
+            case "7" -> {
                 System.out.println("¿Que laboratorio desea editar? (Ingrese el ID))");
                 int IdLaboratorioEditar = in.nextInt();
                 Laboratorio Lab = controller.FindLaboratorio(IdLaboratorioEditar);
@@ -118,13 +114,10 @@ public class Lab_inventory {
                 if (Lab != null) {
                     EditarLaboratorio(Lab.getId());
                 }
-                break;
+            }
 
-            case "0":
-                System.out.println("See u later dude ;)");
-                break;
-            default:
-                throw new AssertionError();
+            case "0" -> System.out.println("See u later dude ;)");
+            default -> throw new AssertionError();
         }
 
     }
