@@ -104,9 +104,11 @@ public class MantenimientoJpaController implements Serializable {
         return findMantenimientoEntities(false, maxResults, firstResult);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Mantenimiento> findMantenimientoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Mantenimiento.class));
             Query q = em.createQuery(cq);
@@ -129,9 +131,11 @@ public class MantenimientoJpaController implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public int getMantenimientoCount() {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Mantenimiento> rt = cq.from(Mantenimiento.class);
             cq.select(em.getCriteriaBuilder().count(rt));

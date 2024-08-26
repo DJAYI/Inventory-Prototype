@@ -5,7 +5,6 @@
 package logic.Controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import logic.Entrega;
 import logic.Equipo;
 import logic.Laboratorio;

@@ -5,6 +5,7 @@
 package logic;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -26,8 +26,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "baja")
 @NamedQueries({
-    @NamedQuery(name = "Baja.findAll", query = "SELECT b FROM Baja b"),
-    @NamedQuery(name = "Baja.findById", query = "SELECT b FROM Baja b WHERE b.id = :id")})
+        @NamedQuery(name = "Baja.findAll", query = "SELECT b FROM Baja b"),
+        @NamedQuery(name = "Baja.findById", query = "SELECT b FROM Baja b WHERE b.id = :id") })
 public class Baja implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -110,7 +110,8 @@ public class Baja implements Serializable {
             return false;
         }
         Baja other = (Baja) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.id != null || other.id == null && (this.id == null || this.id.equals(other.id))) {
+        } else {
             return false;
         }
         return true;
@@ -120,5 +121,5 @@ public class Baja implements Serializable {
     public String toString() {
         return "logic.Baja[ id=" + id + " ]";
     }
-    
+
 }

@@ -104,9 +104,11 @@ public class EntregaJpaController implements Serializable {
         return findEntregaEntities(false, maxResults, firstResult);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Entrega> findEntregaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Entrega.class));
             Query q = em.createQuery(cq);
@@ -129,9 +131,11 @@ public class EntregaJpaController implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public int getEntregaCount() {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Entrega> rt = cq.from(Entrega.class);
             cq.select(em.getCriteriaBuilder().count(rt));

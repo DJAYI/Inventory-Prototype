@@ -6,7 +6,7 @@ package logic;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,8 +29,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "equipo")
 @NamedQueries({
-    @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e"),
-    @NamedQuery(name = "Equipo.findById", query = "SELECT e FROM Equipo e WHERE e.id = :id")})
+        @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e"),
+        @NamedQuery(name = "Equipo.findById", query = "SELECT e FROM Equipo e WHERE e.id = :id") })
 public class Equipo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,25 +52,24 @@ public class Equipo implements Serializable {
     @Column(name = "Estado")
     private String estado;
     @Basic(optional = false)
-    
+
     @Column(name = "FechaAdquisicion")
     @Temporal(TemporalType.DATE)
     private Date fechaAdquisicion;
     @Lob
     @Column(name = "Responsable")
     private String responsable;
-    
+
     @Lob
     @Column(name = "Ubicacion")
     private String ubicacion;
-    
+
     @Lob
     @Column(name = "Observaciones")
     private String observaciones;
     @JoinColumn(name = "LaboratorioID", referencedColumnName = "ID")
     @ManyToOne
     private Laboratorio laboratorioID;
-    
 
     public Equipo() {
     }
@@ -80,7 +78,8 @@ public class Equipo implements Serializable {
         this.id = id;
     }
 
-    public Equipo(Integer id, String código, String nombre, String estado, Date fechaAdquisicion, String responsable, String ubicacion, String observaciones, Laboratorio laboratorioID) {
+    public Equipo(Integer id, String código, String nombre, String estado, Date fechaAdquisicion, String responsable,
+            String ubicacion, String observaciones, Laboratorio laboratorioID) {
         this.id = id;
         this.código = código;
         this.nombre = nombre;
@@ -99,7 +98,7 @@ public class Equipo implements Serializable {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -164,8 +163,6 @@ public class Equipo implements Serializable {
         this.laboratorioID = laboratorioID;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -180,7 +177,8 @@ public class Equipo implements Serializable {
             return false;
         }
         Equipo other = (Equipo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.id != null || other.id == null && (this.id == null || this.id.equals(other.id))) {
+        } else {
             return false;
         }
         return true;
@@ -188,8 +186,9 @@ public class Equipo implements Serializable {
 
     @Override
     public String toString() {
-        return "Equipo{" + "id=" + id + ", c\u00f3digo=" + código + ", nombre=" + nombre + ", estado=" + estado + ", fechaAdquisicion=" + fechaAdquisicion + ", responsable=" + responsable + ", observaciones=" + observaciones + ", laboratorioID=" + laboratorioID +'}';
+        return "Equipo{" + "id=" + id + ", c\u00f3digo=" + código + ", nombre=" + nombre + ", estado=" + estado
+                + ", fechaAdquisicion=" + fechaAdquisicion + ", responsable=" + responsable + ", observaciones="
+                + observaciones + ", laboratorioID=" + laboratorioID + '}';
     }
 
-    
 }

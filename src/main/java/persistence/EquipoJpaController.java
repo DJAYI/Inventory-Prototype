@@ -134,9 +134,11 @@ public class EquipoJpaController implements Serializable {
         return findEquipoEntities(false, maxResults, firstResult);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Equipo> findEquipoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Equipo.class));
             Query q = em.createQuery(cq);
@@ -159,9 +161,11 @@ public class EquipoJpaController implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public int getEquipoCount() {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Equipo> rt = cq.from(Equipo.class);
             cq.select(em.getCriteriaBuilder().count(rt));

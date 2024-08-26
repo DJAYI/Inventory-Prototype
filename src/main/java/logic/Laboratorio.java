@@ -6,17 +6,14 @@ package logic;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,8 +26,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "laboratorio")
 @NamedQueries({
-    @NamedQuery(name = "Laboratorio.findAll", query = "SELECT l FROM Laboratorio l"),
-    @NamedQuery(name = "Laboratorio.findById", query = "SELECT l FROM Laboratorio l WHERE l.id = :id")})
+        @NamedQuery(name = "Laboratorio.findAll", query = "SELECT l FROM Laboratorio l"),
+        @NamedQuery(name = "Laboratorio.findById", query = "SELECT l FROM Laboratorio l WHERE l.id = :id") })
 public class Laboratorio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,8 +46,6 @@ public class Laboratorio implements Serializable {
     private String nombre;
     @OneToMany(mappedBy = "laboratorioID")
     private ArrayList<Equipo> equipoID;
-    
-    
 
     public Laboratorio() {
     }
@@ -65,8 +60,6 @@ public class Laboratorio implements Serializable {
         this.nombre = nombre;
     }
 
-    
-    
     public Integer getId() {
         return id;
     }
@@ -98,10 +91,7 @@ public class Laboratorio implements Serializable {
     public void setEquipoID(ArrayList<Equipo> equipoID) {
         this.equipoID = equipoID;
     }
-    
-    
 
-   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -116,7 +106,8 @@ public class Laboratorio implements Serializable {
             return false;
         }
         Laboratorio other = (Laboratorio) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.id != null || other.id == null && (this.id == null || this.id.equals(other.id))) {
+        } else {
             return false;
         }
         return true;
@@ -127,6 +118,4 @@ public class Laboratorio implements Serializable {
         return "Laboratorio{" + "id=" + id + ", c\u00f3digo=" + código + ", nombre=" + nombre + '}';
     }
 
-    
-    
 }

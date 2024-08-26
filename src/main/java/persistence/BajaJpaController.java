@@ -104,9 +104,11 @@ public class BajaJpaController implements Serializable {
         return findBajaEntities(false, maxResults, firstResult);
     }
 
+    @SuppressWarnings("unchecked")
     private List<Baja> findBajaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Baja.class));
             Query q = em.createQuery(cq);
@@ -129,9 +131,11 @@ public class BajaJpaController implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public int getBajaCount() {
         EntityManager em = getEntityManager();
         try {
+            @SuppressWarnings("rawtypes")
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Baja> rt = cq.from(Baja.class);
             cq.select(em.getCriteriaBuilder().count(rt));
