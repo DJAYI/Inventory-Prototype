@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.elyon_yireh.lab_inventory.persistence;
+package persistence;
 
-import com.elyon_yireh.lab_inventory.persistence.exceptions.NonexistentEntityException;
+import persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -27,13 +27,14 @@ public class LaboratorioJpaController implements Serializable {
     public LaboratorioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public LaboratorioJpaController(){
+
+    public LaboratorioJpaController() {
         emf = Persistence.createEntityManagerFactory("com.elyon_yireh_lab_inventory");
     }
 
@@ -47,7 +48,8 @@ public class LaboratorioJpaController implements Serializable {
             em.getTransaction().begin();
             ArrayList<Equipo> attachedEquipoID = new ArrayList<Equipo>();
             for (Equipo equipoIDEquipoToAttach : laboratorio.getEquipoID()) {
-                equipoIDEquipoToAttach = em.getReference(equipoIDEquipoToAttach.getClass(), equipoIDEquipoToAttach.getId());
+                equipoIDEquipoToAttach = em.getReference(equipoIDEquipoToAttach.getClass(),
+                        equipoIDEquipoToAttach.getId());
                 attachedEquipoID.add(equipoIDEquipoToAttach);
             }
             laboratorio.setEquipoID(attachedEquipoID);
@@ -79,7 +81,8 @@ public class LaboratorioJpaController implements Serializable {
             ArrayList<Equipo> equipoIDNew = laboratorio.getEquipoID();
             ArrayList<Equipo> attachedEquipoIDNew = new ArrayList<Equipo>();
             for (Equipo equipoIDNewEquipoToAttach : equipoIDNew) {
-                equipoIDNewEquipoToAttach = em.getReference(equipoIDNewEquipoToAttach.getClass(), equipoIDNewEquipoToAttach.getId());
+                equipoIDNewEquipoToAttach = em.getReference(equipoIDNewEquipoToAttach.getClass(),
+                        equipoIDNewEquipoToAttach.getId());
                 attachedEquipoIDNew.add(equipoIDNewEquipoToAttach);
             }
             equipoIDNew = attachedEquipoIDNew;
@@ -96,7 +99,8 @@ public class LaboratorioJpaController implements Serializable {
                     Laboratorio oldLaboratorioIDOfEquipoIDNewEquipo = equipoIDNewEquipo.getLaboratorioID();
                     equipoIDNewEquipo.setLaboratorioID(laboratorio);
                     equipoIDNewEquipo = em.merge(equipoIDNewEquipo);
-                    if (oldLaboratorioIDOfEquipoIDNewEquipo != null && !oldLaboratorioIDOfEquipoIDNewEquipo.equals(laboratorio)) {
+                    if (oldLaboratorioIDOfEquipoIDNewEquipo != null
+                            && !oldLaboratorioIDOfEquipoIDNewEquipo.equals(laboratorio)) {
                         oldLaboratorioIDOfEquipoIDNewEquipo.getEquipoID().remove(equipoIDNewEquipo);
                         oldLaboratorioIDOfEquipoIDNewEquipo = em.merge(oldLaboratorioIDOfEquipoIDNewEquipo);
                     }
@@ -190,5 +194,5 @@ public class LaboratorioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -4,21 +4,20 @@
  */
 package persistence.Controller;
 
-
-import com.elyon_yireh.lab_inventory.persistence.BajaJpaController;
-import com.elyon_yireh.lab_inventory.persistence.EntregaJpaController;
-import com.elyon_yireh.lab_inventory.persistence.EquipoJpaController;
-import com.elyon_yireh.lab_inventory.persistence.LaboratorioJpaController;
-import com.elyon_yireh.lab_inventory.persistence.MantenimientoJpaController;
-import com.elyon_yireh.lab_inventory.persistence.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import logic.Entrega;
 import logic.Equipo;
 import logic.Laboratorio;
-
+import persistence.BajaJpaController;
+import persistence.EntregaJpaController;
+import persistence.EquipoJpaController;
+import persistence.LaboratorioJpaController;
+import persistence.MantenimientoJpaController;
+import persistence.exceptions.NonexistentEntityException;
 
 /**
  *
@@ -31,12 +30,12 @@ public class ControllerPersist {
     LaboratorioJpaController LaboratorioJPA = new LaboratorioJpaController();
     MantenimientoJpaController MantenimientoJPA = new MantenimientoJpaController();
 
-    //-----------------------------------------------------------
-    //=======================EQUIPOS========================
-    //-----------------------------------------------------------
-    
+    // -----------------------------------------------------------
+    // =======================EQUIPOS========================
+    // -----------------------------------------------------------
+
     public void CreateEquipo(Equipo equipo) {
-        EquipoJPA.create(equipo); 
+        EquipoJPA.create(equipo);
     }
 
     public void DeleteEquipo(int Id) {
@@ -58,20 +57,20 @@ public class ControllerPersist {
     public Equipo FindEquipo(int Id) {
         return EquipoJPA.findEquipo(Id);
     }
-    
+
     public ArrayList<Equipo> FindAllEquipos() {
         List<Equipo> Equipos = EquipoJPA.findEquipoEntities();
-        ArrayList<Equipo> ListadoEquipos = new ArrayList<Equipo> (Equipos);
-        
+        ArrayList<Equipo> ListadoEquipos = new ArrayList<Equipo>(Equipos);
+
         return ListadoEquipos;
     }
-    
-    //-----------------------------------------------------------
-    //=======================LABORATORIOS========================
-    //-----------------------------------------------------------
-    
+
+    // -----------------------------------------------------------
+    // =======================LABORATORIOS========================
+    // -----------------------------------------------------------
+
     public void CreateLaboratorio(Laboratorio laboratorio) {
-        LaboratorioJPA.create(laboratorio); 
+        LaboratorioJPA.create(laboratorio);
     }
 
     public void DeleteLaboratorio(int Id) {
@@ -93,18 +92,17 @@ public class ControllerPersist {
     public Laboratorio FindLaboratorio(int Id) {
         return LaboratorioJPA.findLaboratorio(Id);
     }
-    
+
     public ArrayList<Laboratorio> FindAllLaboratorios() {
         List<Laboratorio> Laboratorios = LaboratorioJPA.findLaboratorioEntities();
-        ArrayList<Laboratorio> ListadoLaboratorios = new ArrayList<Laboratorio> (Laboratorios);
-        
+        ArrayList<Laboratorio> ListadoLaboratorios = new ArrayList<Laboratorio>(Laboratorios);
+
         return ListadoLaboratorios;
     }
-    
-    
-    //-----------------------------------------------------------
-    //=======================Entrega========================
-    //-----------------------------------------------------------
+
+    // -----------------------------------------------------------
+    // =======================Entrega========================
+    // -----------------------------------------------------------
 
     public void CreateEntrega(Entrega entrega) {
         EntregaJPA.create(entrega);
@@ -135,5 +133,5 @@ public class ControllerPersist {
         ArrayList<Entrega> listEntregas = new ArrayList<>(Entregas);
         return listEntregas;
     }
-    
+
 }

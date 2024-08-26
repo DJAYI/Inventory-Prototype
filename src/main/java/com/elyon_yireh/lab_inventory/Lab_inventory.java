@@ -30,7 +30,6 @@ public class Lab_inventory {
 
         System.out.println("=====| Laboratorios |=====");
         System.out.println("|4|. Ingresar nuevo Laboratorio");
-        System.out.println("|5|. Ver lista de Laboratorios");
         System.out.println("|6|. Ver lista de Equipos por Laboratorio");
         System.out.println("|7|. Editar Informacion de Laboratorio");
 

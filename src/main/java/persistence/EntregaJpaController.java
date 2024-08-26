@@ -2,45 +2,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.elyon_yireh.lab_inventory.persistence;
+package persistence;
 
-import com.elyon_yireh.lab_inventory.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import logic.Mantenimiento;
+
+import logic.Entrega;
+import persistence.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author danil
  */
-public class MantenimientoJpaController implements Serializable {
+public class EntregaJpaController implements Serializable {
 
-    public MantenimientoJpaController(EntityManagerFactory emf) {
+    public EntregaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public MantenimientoJpaController (){
+
+    public EntregaJpaController() {
         emf = Persistence.createEntityManagerFactory("com.elyon_yireh_lab_inventory");
     }
 
-    public void create(Mantenimiento mantenimiento) {
+    public void create(Entrega entrega) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(mantenimiento);
+            em.persist(entrega);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,19 +52,19 @@ public class MantenimientoJpaController implements Serializable {
         }
     }
 
-    public void edit(Mantenimiento mantenimiento) throws NonexistentEntityException, Exception {
+    public void edit(Entrega entrega) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            mantenimiento = em.merge(mantenimiento);
+            entrega = em.merge(entrega);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = mantenimiento.getId();
-                if (findMantenimiento(id) == null) {
-                    throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.");
+                Integer id = entrega.getId();
+                if (findEntrega(id) == null) {
+                    throw new NonexistentEntityException("The entrega with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -77,14 +80,14 @@ public class MantenimientoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Mantenimiento mantenimiento;
+            Entrega entrega;
             try {
-                mantenimiento = em.getReference(Mantenimiento.class, id);
-                mantenimiento.getId();
+                entrega = em.getReference(Entrega.class, id);
+                entrega.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The entrega with id " + id + " no longer exists.", enfe);
             }
-            em.remove(mantenimiento);
+            em.remove(entrega);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -93,19 +96,19 @@ public class MantenimientoJpaController implements Serializable {
         }
     }
 
-    public List<Mantenimiento> findMantenimientoEntities() {
-        return findMantenimientoEntities(true, -1, -1);
+    public List<Entrega> findEntregaEntities() {
+        return findEntregaEntities(true, -1, -1);
     }
 
-    public List<Mantenimiento> findMantenimientoEntities(int maxResults, int firstResult) {
-        return findMantenimientoEntities(false, maxResults, firstResult);
+    public List<Entrega> findEntregaEntities(int maxResults, int firstResult) {
+        return findEntregaEntities(false, maxResults, firstResult);
     }
 
-    private List<Mantenimiento> findMantenimientoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Entrega> findEntregaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Mantenimiento.class));
+            cq.select(cq.from(Entrega.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -117,20 +120,20 @@ public class MantenimientoJpaController implements Serializable {
         }
     }
 
-    public Mantenimiento findMantenimiento(Integer id) {
+    public Entrega findEntrega(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Mantenimiento.class, id);
+            return em.find(Entrega.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getMantenimientoCount() {
+    public int getEntregaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Mantenimiento> rt = cq.from(Mantenimiento.class);
+            Root<Entrega> rt = cq.from(Entrega.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -138,5 +141,5 @@ public class MantenimientoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

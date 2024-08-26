@@ -2,45 +2,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.elyon_yireh.lab_inventory.persistence;
+package persistence;
 
-import com.elyon_yireh.lab_inventory.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import logic.Entrega;
+
+import logic.Baja;
+import persistence.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author danil
  */
-public class EntregaJpaController implements Serializable {
+public class BajaJpaController implements Serializable {
 
-    public EntregaJpaController(EntityManagerFactory emf) {
+    public BajaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public EntregaJpaController (){
+
+    public BajaJpaController() {
         emf = Persistence.createEntityManagerFactory("com.elyon_yireh_lab_inventory");
     }
 
-    public void create(Entrega entrega) {
+    public void create(Baja baja) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(entrega);
+            em.persist(baja);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,19 +52,19 @@ public class EntregaJpaController implements Serializable {
         }
     }
 
-    public void edit(Entrega entrega) throws NonexistentEntityException, Exception {
+    public void edit(Baja baja) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            entrega = em.merge(entrega);
+            baja = em.merge(baja);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = entrega.getId();
-                if (findEntrega(id) == null) {
-                    throw new NonexistentEntityException("The entrega with id " + id + " no longer exists.");
+                Integer id = baja.getId();
+                if (findBaja(id) == null) {
+                    throw new NonexistentEntityException("The baja with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -77,14 +80,14 @@ public class EntregaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Entrega entrega;
+            Baja baja;
             try {
-                entrega = em.getReference(Entrega.class, id);
-                entrega.getId();
+                baja = em.getReference(Baja.class, id);
+                baja.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The entrega with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The baja with id " + id + " no longer exists.", enfe);
             }
-            em.remove(entrega);
+            em.remove(baja);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -93,19 +96,19 @@ public class EntregaJpaController implements Serializable {
         }
     }
 
-    public List<Entrega> findEntregaEntities() {
-        return findEntregaEntities(true, -1, -1);
+    public List<Baja> findBajaEntities() {
+        return findBajaEntities(true, -1, -1);
     }
 
-    public List<Entrega> findEntregaEntities(int maxResults, int firstResult) {
-        return findEntregaEntities(false, maxResults, firstResult);
+    public List<Baja> findBajaEntities(int maxResults, int firstResult) {
+        return findBajaEntities(false, maxResults, firstResult);
     }
 
-    private List<Entrega> findEntregaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Baja> findBajaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Entrega.class));
+            cq.select(cq.from(Baja.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -117,20 +120,20 @@ public class EntregaJpaController implements Serializable {
         }
     }
 
-    public Entrega findEntrega(Integer id) {
+    public Baja findBaja(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Entrega.class, id);
+            return em.find(Baja.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getEntregaCount() {
+    public int getBajaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Entrega> rt = cq.from(Entrega.class);
+            Root<Baja> rt = cq.from(Baja.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -138,5 +141,5 @@ public class EntregaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

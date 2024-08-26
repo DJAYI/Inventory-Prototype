@@ -2,45 +2,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.elyon_yireh.lab_inventory.persistence;
+package persistence;
 
-import com.elyon_yireh.lab_inventory.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import logic.Baja;
+
+import logic.Mantenimiento;
+import persistence.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author danil
  */
-public class BajaJpaController implements Serializable {
+public class MantenimientoJpaController implements Serializable {
 
-    public BajaJpaController(EntityManagerFactory emf) {
+    public MantenimientoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
-    public BajaJpaController (){
+
+    public MantenimientoJpaController() {
         emf = Persistence.createEntityManagerFactory("com.elyon_yireh_lab_inventory");
     }
 
-    public void create(Baja baja) {
+    public void create(Mantenimiento mantenimiento) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(baja);
+            em.persist(mantenimiento);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,19 +52,19 @@ public class BajaJpaController implements Serializable {
         }
     }
 
-    public void edit(Baja baja) throws NonexistentEntityException, Exception {
+    public void edit(Mantenimiento mantenimiento) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            baja = em.merge(baja);
+            mantenimiento = em.merge(mantenimiento);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = baja.getId();
-                if (findBaja(id) == null) {
-                    throw new NonexistentEntityException("The baja with id " + id + " no longer exists.");
+                Integer id = mantenimiento.getId();
+                if (findMantenimiento(id) == null) {
+                    throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -77,14 +80,14 @@ public class BajaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Baja baja;
+            Mantenimiento mantenimiento;
             try {
-                baja = em.getReference(Baja.class, id);
-                baja.getId();
+                mantenimiento = em.getReference(Mantenimiento.class, id);
+                mantenimiento.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The baja with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The mantenimiento with id " + id + " no longer exists.", enfe);
             }
-            em.remove(baja);
+            em.remove(mantenimiento);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -93,19 +96,19 @@ public class BajaJpaController implements Serializable {
         }
     }
 
-    public List<Baja> findBajaEntities() {
-        return findBajaEntities(true, -1, -1);
+    public List<Mantenimiento> findMantenimientoEntities() {
+        return findMantenimientoEntities(true, -1, -1);
     }
 
-    public List<Baja> findBajaEntities(int maxResults, int firstResult) {
-        return findBajaEntities(false, maxResults, firstResult);
+    public List<Mantenimiento> findMantenimientoEntities(int maxResults, int firstResult) {
+        return findMantenimientoEntities(false, maxResults, firstResult);
     }
 
-    private List<Baja> findBajaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Mantenimiento> findMantenimientoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Baja.class));
+            cq.select(cq.from(Mantenimiento.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -117,20 +120,20 @@ public class BajaJpaController implements Serializable {
         }
     }
 
-    public Baja findBaja(Integer id) {
+    public Mantenimiento findMantenimiento(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Baja.class, id);
+            return em.find(Mantenimiento.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getBajaCount() {
+    public int getMantenimientoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Baja> rt = cq.from(Baja.class);
+            Root<Mantenimiento> rt = cq.from(Mantenimiento.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -138,5 +141,5 @@ public class BajaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
